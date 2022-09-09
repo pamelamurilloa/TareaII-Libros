@@ -18,17 +18,17 @@ public class ArchiveManager {
     File userFile;
     File booksFile;
     
-    public void createFileHangedRecords(String fileString) throws IOException {
+    public void createFileHangedRecords(String fileString) { //This can get "users" or "books"
         File nameFile = booksFile;      //The automatic file creaded is the booksFile
         if ("users".equals(fileString)) {    //Unless it is specified the contrary
-            nameFile = userFile;
+            nameFile = userFile; 
         }
         
         nameFile = new File(nameFile + ".txt");
     }
     
     
-    public void writeInFile(String fileString, String textToWrite) {
+    public void writeInFile(String fileString, String textToWrite) { //This can get "users" or "books", and the text you wanna write in it
         File nameFile = booksFile;      //The automatic file creaded is the booksFile
         if ("users".equals(fileString)) {    //Unless it is specified the contrary
             nameFile = userFile;
@@ -51,7 +51,7 @@ public class ArchiveManager {
 
     }
     
-    public ArrayList readInFile(String fileString){
+    public ArrayList readInFile(String fileString){ //This can get "users" or "books"
         File nameFile = booksFile;      //The automatic file creaded is the booksFile
         if ("users".equals(fileString)) {    //Unless it is specified the contrary
             nameFile = userFile;
