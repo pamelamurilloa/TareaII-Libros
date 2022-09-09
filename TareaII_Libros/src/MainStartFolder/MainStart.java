@@ -1,9 +1,12 @@
 package MainStartFolder;
 
+import InterfacesFolder.LoginFrame;
+
 public class MainStart {
 
     public static void main(String[] args) {
-        // TODO code application logic here
+        LoginFrame mainFrame = new LoginFrame();
+        mainFrame.setVisible(true);
     }
     
 }
