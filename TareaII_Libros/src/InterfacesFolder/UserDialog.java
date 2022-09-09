@@ -1,13 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package InterfacesFolder;
 
-/**
- *
- * @author pamelamurillo
- */
+
 public class UserDialog extends javax.swing.JDialog {
 
     /**
@@ -16,6 +9,7 @@ public class UserDialog extends javax.swing.JDialog {
     public UserDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
