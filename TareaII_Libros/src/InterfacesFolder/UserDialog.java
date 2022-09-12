@@ -12,6 +12,10 @@ public class UserDialog extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
     }
 
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -21,18 +25,60 @@ public class UserDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        pnlHeader = new javax.swing.JPanel();
+        textTitle = new javax.swing.JLabel();
+        txtSubtitle = new javax.swing.JLabel();
+        pnlFooter = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        pnlBackground = new javax.swing.JPanel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1100, Short.MAX_VALUE)
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlHeader.setBackground(new java.awt.Color(14, 78, 84));
+        pnlHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        textTitle.setFont(new java.awt.Font("Grantha Sangam MN", 1, 55)); // NOI18N
+        textTitle.setForeground(new java.awt.Color(255, 255, 255));
+        textTitle.setText("BookLife");
+        pnlHeader.add(textTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 260, -1));
+
+        txtSubtitle.setFont(new java.awt.Font("Hiragino Mincho ProN", 2, 24)); // NOI18N
+        txtSubtitle.setForeground(new java.awt.Color(232, 250, 242));
+        txtSubtitle.setText("Venta y Alquiler de Libros");
+        pnlHeader.add(txtSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, -1, -1));
+
+        getContentPane().add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 130));
+
+        pnlFooter.setBackground(new java.awt.Color(0, 102, 102));
+
+        jLabel1.setBackground(new java.awt.Color(0, 102, 102));
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 3, 13)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel1.setText("Murillo Anchia Pamela");
+
+        javax.swing.GroupLayout pnlFooterLayout = new javax.swing.GroupLayout(pnlFooter);
+        pnlFooter.setLayout(pnlFooterLayout);
+        pnlFooterLayout.setHorizontalGroup(
+            pnlFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFooterLayout.createSequentialGroup()
+                .addContainerGap(943, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(20, 20, 20))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 750, Short.MAX_VALUE)
+        pnlFooterLayout.setVerticalGroup(
+            pnlFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFooterLayout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap())
         );
+
+        getContentPane().add(pnlFooter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 710, 1100, 40));
+
+        pnlBackground.setBackground(new java.awt.Color(255, 255, 255));
+        pnlBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(pnlBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1100, 590));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -80,5 +126,11 @@ public class UserDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel pnlBackground;
+    private javax.swing.JPanel pnlFooter;
+    private javax.swing.JPanel pnlHeader;
+    private javax.swing.JLabel textTitle;
+    private javax.swing.JLabel txtSubtitle;
     // End of variables declaration//GEN-END:variables
 }
