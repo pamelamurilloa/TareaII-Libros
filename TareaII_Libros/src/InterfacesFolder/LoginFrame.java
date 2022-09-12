@@ -9,8 +9,37 @@ public class LoginFrame extends javax.swing.JFrame {
     public LoginFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        lblError.setVisible(false);
     }
 
+    
+
+    
+    public void confirmIfExist(String userName, String password) { //This will take the input and confirm if the user is in the file
+        boolean doesItExist = false, validPassword = false;
+        
+        if (doesItExist == false) {
+            addUser();              //If the user doesnt exist, it is added and opens the new window
+        } else {
+            if (validPassword == false) {
+                lblError.setVisible(true);
+            } else {
+                if (userName == "01Admin") { //If the user is Admin, and the password is valid, it will open the administrator window
+                    
+                } else { //If the password is valid and the user exist, it will open the user window
+                    
+                }
+            }
+        }
+        
+    }
+    
+    
+    public void addUser() { //If the name is valid but not in the file, the user is added
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -20,21 +49,138 @@ public class LoginFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        pnlBackground = new javax.swing.JPanel();
+        txtSubtitle = new javax.swing.JLabel();
+        textTitle = new javax.swing.JLabel();
+        lblPassword = new javax.swing.JLabel();
+        lblUsername = new javax.swing.JLabel();
+        inputPassword = new javax.swing.JPasswordField();
+        inputUsername = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        btnConfirm = new javax.swing.JButton();
+        lblError = new javax.swing.JLabel();
+        BookIcon = new javax.swing.JLabel();
+        pnlHeader = new javax.swing.JPanel();
+        pnlFooter = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1100, Short.MAX_VALUE)
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+        setMaximumSize(new java.awt.Dimension(1100, 750));
+        setMinimumSize(new java.awt.Dimension(1100, 750));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlBackground.setBackground(new java.awt.Color(255, 255, 255));
+        pnlBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtSubtitle.setFont(new java.awt.Font("Hiragino Mincho ProN", 2, 24)); // NOI18N
+        txtSubtitle.setForeground(new java.awt.Color(0, 51, 51));
+        txtSubtitle.setText("Venta y Alquiler de Libros");
+        pnlBackground.add(txtSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, -1, -1));
+
+        textTitle.setFont(new java.awt.Font("Grantha Sangam MN", 1, 55)); // NOI18N
+        textTitle.setForeground(new java.awt.Color(0, 0, 0));
+        textTitle.setText("BookLife");
+        pnlBackground.add(textTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 260, -1));
+
+        lblPassword.setFont(new java.awt.Font("Kohinoor Bangla", 0, 17)); // NOI18N
+        lblPassword.setForeground(new java.awt.Color(0, 0, 0));
+        lblPassword.setText("Contraseña");
+        pnlBackground.add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, -1, -1));
+
+        lblUsername.setFont(new java.awt.Font("Kohinoor Bangla", 0, 17)); // NOI18N
+        lblUsername.setForeground(new java.awt.Color(0, 0, 0));
+        lblUsername.setText("Nombre de Usuario");
+        pnlBackground.add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
+
+        inputPassword.setBackground(new java.awt.Color(245, 245, 245));
+        inputPassword.setForeground(new java.awt.Color(102, 102, 102));
+        inputPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inputPassword.setText("inputPassword");
+        inputPassword.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        pnlBackground.add(inputPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 250, 40));
+
+        inputUsername.setBackground(new java.awt.Color(245, 245, 245));
+        inputUsername.setFont(new java.awt.Font("Kohinoor Bangla", 2, 15)); // NOI18N
+        inputUsername.setForeground(new java.awt.Color(102, 102, 102));
+        inputUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inputUsername.setText("Indique aquí su nombre");
+        inputUsername.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        inputUsername.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        inputUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputUsernameActionPerformed(evt);
+            }
+        });
+        pnlBackground.add(inputUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 250, 40));
+        pnlBackground.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 250, 10));
+        pnlBackground.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 250, 10));
+
+        btnConfirm.setBackground(new java.awt.Color(121, 210, 180));
+        btnConfirm.setFont(new java.awt.Font("Kohinoor Devanagari", 1, 17)); // NOI18N
+        btnConfirm.setForeground(new java.awt.Color(0, 0, 0));
+        btnConfirm.setText("Confirmar");
+        btnConfirm.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnConfirm.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmActionPerformed(evt);
+            }
+        });
+        pnlBackground.add(btnConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, 140, 50));
+
+        lblError.setBackground(new java.awt.Color(255, 255, 255));
+        lblError.setForeground(new java.awt.Color(204, 0, 0));
+        lblError.setText("La contraseña no es válida para este nombre de usuario");
+        pnlBackground.add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, -1, -1));
+
+        BookIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogicFolder/BookIcon.png"))); // NOI18N
+        BookIcon.setText("jLabel4");
+        pnlBackground.add(BookIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, 860, 420));
+
+        getContentPane().add(pnlBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1100, 590));
+
+        pnlHeader.setBackground(new java.awt.Color(14, 78, 84));
+        pnlHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 130));
+
+        pnlFooter.setBackground(new java.awt.Color(0, 102, 102));
+
+        jLabel1.setBackground(new java.awt.Color(0, 102, 102));
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 3, 13)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel1.setText("Murillo Anchia Pamela");
+
+        javax.swing.GroupLayout pnlFooterLayout = new javax.swing.GroupLayout(pnlFooter);
+        pnlFooter.setLayout(pnlFooterLayout);
+        pnlFooterLayout.setHorizontalGroup(
+            pnlFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFooterLayout.createSequentialGroup()
+                .addContainerGap(952, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(20, 20, 20))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 750, Short.MAX_VALUE)
+        pnlFooterLayout.setVerticalGroup(
+            pnlFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFooterLayout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap())
         );
+
+        getContentPane().add(pnlFooter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 710, -1, 40));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void inputUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputUsernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputUsernameActionPerformed
+
+    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
+        confirmIfExist(inputUsername.getText(), inputPassword.getText());
+    }//GEN-LAST:event_btnConfirmActionPerformed
 
     /**
      * @param args the command line arguments
@@ -72,5 +218,20 @@ public class LoginFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BookIcon;
+    private javax.swing.JButton btnConfirm;
+    private javax.swing.JPasswordField inputPassword;
+    private javax.swing.JTextField inputUsername;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lblError;
+    private javax.swing.JLabel lblPassword;
+    private javax.swing.JLabel lblUsername;
+    private javax.swing.JPanel pnlBackground;
+    private javax.swing.JPanel pnlFooter;
+    private javax.swing.JPanel pnlHeader;
+    private javax.swing.JLabel textTitle;
+    private javax.swing.JLabel txtSubtitle;
     // End of variables declaration//GEN-END:variables
 }
