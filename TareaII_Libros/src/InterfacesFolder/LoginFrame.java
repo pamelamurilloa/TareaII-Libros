@@ -11,6 +11,9 @@ public class LoginFrame extends javax.swing.JFrame {
     private HashMap<String, HashMap> mainHashMap = new HashMap<String, HashMap>();
     private ArchiveManager archiveManager = new ArchiveManager();
     
+    private String defaultUsernameText = "Indique aquí su nombre";
+    private String defaultPasswordText = "***";
+    
     /**
      * Creates new form LoginFrame
      */
@@ -36,35 +39,44 @@ public class LoginFrame extends javax.swing.JFrame {
             String[] newLineArray = newLine.split(", ");
             
             HashMap<String, String> subHashMap = new HashMap<String, String>();
-            subHashMap.put(newLineArray[1], newLineArray[2]);
+            subHashMap.put("type", newLineArray[1]);
+            subHashMap.put("password", newLineArray[2]);
             
             mainHashMap.put(newLineArray[0], subHashMap);
         }
     }
     
     
-    public boolean confirmIfExist(String userName, String password) { //This will take the input and confirm if the user is in the file
-        boolean doesItExist = false;
-        
-        
-        
-
+    public boolean confirmIfUserExist(String userName) {
+        boolean doesItExist = mainHashMap.containsKey(userName);
         return doesItExist;
     }
     
-    public boolean isThePasswordValid(String password) {
+    public boolean isThePasswordValid(String userName, String password) {
         boolean isValid = false;
+        HashMap userInfo = mainHashMap.get(userName);
+        String filePassword = userInfo.get("password").toString();
+        
+        if (filePassword.equals(password)) {
+            isValid = true;
+        }
+        
         return isValid;
     }
+
     
-    public void addUser(String userName, String password) { //If the name is valid but not in the file, the user is added
+    public void addUser(String userName, String password) {
         archiveManager.createFileUsers();
         archiveManager.writeInFile("users", userName + ", user, " + password);
         getUserFile();
     }
     
-    public void openNewWindow(String adminOrUser) { //That can either be "Admin" for the administrators or "Normal" for regular users
-        if (adminOrUser.equals("Admin")) {
+    
+    public void openNewWindow(String userName) {
+        HashMap userInfo = mainHashMap.get(userName);
+        String userType = userInfo.get("type").toString(); //This will get either "administrator" or "user"
+        
+        if (userType.equals("administrator")) {
             AdministratorDialog newWindow = new AdministratorDialog(this, true);
             newWindow.setVisible(true);
         } else {
@@ -165,13 +177,20 @@ public class LoginFrame extends javax.swing.JFrame {
         pnlBackground.add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
 
         inputPassword.setBackground(new java.awt.Color(245, 245, 245));
+        inputPassword.setFont(new java.awt.Font("Kohinoor Bangla", 1, 15)); // NOI18N
         inputPassword.setForeground(new java.awt.Color(102, 102, 102));
         inputPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inputPassword.setText("inputPassword");
+        inputPassword.setText("***");
         inputPassword.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         inputPassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 inputPasswordMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                inputPasswordMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                inputPasswordMouseEntered(evt);
             }
         });
         pnlBackground.add(inputPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 250, 40));
@@ -186,6 +205,12 @@ public class LoginFrame extends javax.swing.JFrame {
         inputUsername.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 inputUsernameMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                inputUsernameMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                inputUsernameMouseEntered(evt);
             }
         });
         inputUsername.addActionListener(new java.awt.event.ActionListener() {
@@ -212,7 +237,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         lblErrorUser.setBackground(new java.awt.Color(255, 255, 255));
         lblErrorUser.setForeground(new java.awt.Color(204, 0, 0));
-        lblErrorUser.setText("Este nombre de usuario ya existe");
+        lblErrorUser.setText("Nombre de usuario no válido");
         pnlBackground.add(lblErrorUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, -1));
 
         BookIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogicFolder/BookIcon.png"))); // NOI18N
@@ -249,44 +274,66 @@ public class LoginFrame extends javax.swing.JFrame {
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         resetLabels();
         
-        boolean doesItExist = confirmIfExist( inputUsername.getText(), inputPassword.getText() ); //If the user exists
+        boolean doesItExist = confirmIfUserExist( inputUsername.getText() ); //If the user exists
         if (doesItExist == false){
-            addUser(inputUsername.getText(), inputPassword.getText());
+            addUser(inputUsername.getText(), String.valueOf(inputPassword.getPassword()) );
             openNewWindow("Normal");
         } else {
             lblErrorUser.setVisible(true);
         }
     }//GEN-LAST:event_btnRegisterActionPerformed
 
+    
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         resetLabels();
         
-        boolean doesItExist = confirmIfExist( inputUsername.getText(), inputPassword.getText() );
-        boolean validPassword = isThePasswordValid( inputPassword.getText() );
-        String userType;
-        if (doesItExist == true && validPassword == true) {
-            if (inputUsername.getText().equals("01Admin")) {
-                userType = "Admin";
-            } else {
-                userType = "Normal";
-            }
+        boolean doesItExist = confirmIfUserExist( inputUsername.getText() );
+        
+        if (doesItExist == true) {
+            boolean validPassword = isThePasswordValid( inputUsername.getText(), String.valueOf(inputPassword.getPassword()) );
+            if (validPassword == true){
+                openNewWindow( inputUsername.getText() );
+                
+            } else { lblErrorPassword.setVisible(true); }
             
-            openNewWindow(userType);
-            
-        } else if (doesItExist == true && validPassword == false) {
-            lblErrorPassword.setVisible(true);
-        } else {
-            lblErrorUser.setVisible(true);
-        }
+        } else { lblErrorUser.setVisible(true); }
     }//GEN-LAST:event_btnLoginActionPerformed
 
+    
     private void inputUsernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputUsernameMouseClicked
         resetLabels();
+        
     }//GEN-LAST:event_inputUsernameMouseClicked
 
+    
     private void inputPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputPasswordMouseClicked
         resetLabels();
+        
     }//GEN-LAST:event_inputPasswordMouseClicked
+
+    private void inputUsernameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputUsernameMouseEntered
+        if ( inputUsername.getText().equals(defaultUsernameText) ) {
+            inputUsername.setText("");
+        }
+    }//GEN-LAST:event_inputUsernameMouseEntered
+
+    private void inputUsernameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputUsernameMouseExited
+        if ( inputUsername.getText().equals("") ) {
+            inputUsername.setText(defaultUsernameText);
+        } 
+    }//GEN-LAST:event_inputUsernameMouseExited
+
+    private void inputPasswordMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputPasswordMouseEntered
+        if ( String.valueOf(inputPassword.getPassword()).equals(defaultPasswordText) ) {
+            inputPassword.setText("");
+        }
+    }//GEN-LAST:event_inputPasswordMouseEntered
+
+    private void inputPasswordMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputPasswordMouseExited
+        if ( String.valueOf(inputPassword.getPassword()).equals("") ) {
+            inputPassword.setText(defaultPasswordText);
+        } 
+    }//GEN-LAST:event_inputPasswordMouseExited
 
     /**
      * @param args the command line arguments
