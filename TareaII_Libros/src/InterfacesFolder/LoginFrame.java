@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class LoginFrame extends javax.swing.JFrame {
 
     
-    private ArrayList<HashMap> userFileInfo = new ArrayList<HashMap>();
+    private HashMap<String, HashMap> mainHashMap = new HashMap<String, HashMap>();
     private ArchiveManager archiveManager = new ArchiveManager();
     
     /**
@@ -19,6 +19,7 @@ public class LoginFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
         resetLabels();
+        getUserFile();
     }
 
     public void resetLabels() {
@@ -27,7 +28,18 @@ public class LoginFrame extends javax.swing.JFrame {
     }
     
     public void getUserFile() {
+        archiveManager.createFileUsers();
+        ArrayList userList = archiveManager.readInFile("users");
         
+        for (int line = 0; userList.size() > line; line++) {
+            String newLine = userList.get(line).toString();
+            String[] newLineArray = newLine.split(", ");
+            
+            HashMap<String, String> subHashMap = new HashMap<String, String>();
+            subHashMap.put(newLineArray[1], newLineArray[2]);
+            
+            mainHashMap.put(newLineArray[0], subHashMap);
+        }
     }
     
     
@@ -48,6 +60,7 @@ public class LoginFrame extends javax.swing.JFrame {
     public void addUser(String userName, String password) { //If the name is valid but not in the file, the user is added
         archiveManager.createFileUsers();
         archiveManager.writeInFile("users", userName + ", user, " + password);
+        getUserFile();
     }
     
     public void openNewWindow(String adminOrUser) { //That can either be "Admin" for the administrators or "Normal" for regular users
