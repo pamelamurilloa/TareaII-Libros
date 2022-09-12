@@ -14,24 +14,24 @@ import java.util.logging.Logger;
  *
  * @author pamelamurillo
  */
+
 public class ArchiveManager {
-    File userFile;
+    File usersFile;
     File booksFile;
     
-    public void createFileHangedRecords(String fileString) { //This can get "users" or "books"
-        File nameFile = booksFile;      //The automatic file creaded is the booksFile
-        if ("users".equals(fileString)) {    //Unless it is specified the contrary
-            nameFile = userFile; 
-        }
-        
-        nameFile = new File(nameFile + ".txt");
+    public void createFileBooks(){
+        booksFile = new File("books.txt");
+    }
+    
+    public void createFileUsers(){
+        usersFile = new File("users.txt");
     }
     
     
     public void writeInFile(String fileString, String textToWrite) { //This can get "users" or "books", and the text you wanna write in it
         File nameFile = booksFile;      //The automatic file creaded is the booksFile
         if ("users".equals(fileString)) {    //Unless it is specified the contrary
-            nameFile = userFile;
+            nameFile = usersFile;
         }
         
         try {
@@ -54,7 +54,7 @@ public class ArchiveManager {
     public ArrayList readInFile(String fileString){ //This can get "users" or "books"
         File nameFile = booksFile;      //The automatic file creaded is the booksFile
         if ("users".equals(fileString)) {    //Unless it is specified the contrary
-            nameFile = userFile;
+            nameFile = usersFile;
         }
         
         ArrayList infoFile = new ArrayList();
