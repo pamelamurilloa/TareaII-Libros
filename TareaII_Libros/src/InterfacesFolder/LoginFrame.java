@@ -1,8 +1,16 @@
 package InterfacesFolder;
 
+import LogicFolder.ArchiveManager;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class LoginFrame extends javax.swing.JFrame {
 
+    
+    private ArrayList<HashMap> userFileInfo = new ArrayList<HashMap>();
+    private ArchiveManager archiveManager = new ArchiveManager();
+    
     /**
      * Creates new form LoginFrame
      */
@@ -10,34 +18,46 @@ public class LoginFrame extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        lblError.setVisible(false);
+        resetLabels();
     }
 
+    public void resetLabels() {
+        lblErrorUser.setVisible(false);
+        lblErrorPassword.setVisible(false);
+    }
     
-
-    
-    public void confirmIfExist(String userName, String password) { //This will take the input and confirm if the user is in the file
-        boolean doesItExist = false, validPassword = false;
+    public void getUserFile() {
         
-        if (doesItExist == false) {
-            addUser();              //If the user doesnt exist, it is added and opens the new window
+    }
+    
+    
+    public boolean confirmIfExist(String userName, String password) { //This will take the input and confirm if the user is in the file
+        boolean doesItExist = false;
+        
+        
+        
+
+        return doesItExist;
+    }
+    
+    public boolean isThePasswordValid(String password) {
+        boolean isValid = false;
+        return isValid;
+    }
+    
+    public void addUser(String userName, String password) { //If the name is valid but not in the file, the user is added
+        archiveManager.createFileUsers();
+        archiveManager.writeInFile("users", userName + ", user, " + password);
+    }
+    
+    public void openNewWindow(String adminOrUser) { //That can either be "Admin" for the administrators or "Normal" for regular users
+        if (adminOrUser.equals("Admin")) {
+            AdministratorDialog newWindow = new AdministratorDialog(this, true);
+            newWindow.setVisible(true);
         } else {
-            if (validPassword == false) {
-                lblError.setVisible(true);
-            } else {
-                if (userName == "01Admin") { //If the user is Admin, and the password is valid, it will open the administrator window
-                    
-                } else { //If the password is valid and the user exist, it will open the user window
-                    
-                }
-            }
+            UserDialog newWindow = new UserDialog(this, true);
+            newWindow.setVisible(true);
         }
-        
-    }
-    
-    
-    public void addUser() { //If the name is valid but not in the file, the user is added
-        
     }
     
     /**
@@ -49,6 +69,10 @@ public class LoginFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblError1 = new javax.swing.JLabel();
+        pnlHeader = new javax.swing.JPanel();
+        pnlFooter = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         pnlBackground = new javax.swing.JPanel();
         txtSubtitle = new javax.swing.JLabel();
         textTitle = new javax.swing.JLabel();
@@ -58,88 +82,21 @@ public class LoginFrame extends javax.swing.JFrame {
         inputUsername = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        btnConfirm = new javax.swing.JButton();
-        lblError = new javax.swing.JLabel();
+        btnRegister = new javax.swing.JButton();
+        lblErrorUser = new javax.swing.JLabel();
         BookIcon = new javax.swing.JLabel();
-        pnlHeader = new javax.swing.JPanel();
-        pnlFooter = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblErrorPassword = new javax.swing.JLabel();
+        btnLogin = new javax.swing.JButton();
+
+        lblError1.setBackground(new java.awt.Color(255, 255, 255));
+        lblError1.setForeground(new java.awt.Color(204, 0, 0));
+        lblError1.setText("La contraseña no es válida para este nombre de usuario");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(1100, 750));
         setMinimumSize(new java.awt.Dimension(1100, 750));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        pnlBackground.setBackground(new java.awt.Color(255, 255, 255));
-        pnlBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtSubtitle.setFont(new java.awt.Font("Hiragino Mincho ProN", 2, 24)); // NOI18N
-        txtSubtitle.setForeground(new java.awt.Color(0, 51, 51));
-        txtSubtitle.setText("Venta y Alquiler de Libros");
-        pnlBackground.add(txtSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, -1, -1));
-
-        textTitle.setFont(new java.awt.Font("Grantha Sangam MN", 1, 55)); // NOI18N
-        textTitle.setForeground(new java.awt.Color(0, 0, 0));
-        textTitle.setText("BookLife");
-        pnlBackground.add(textTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 260, -1));
-
-        lblPassword.setFont(new java.awt.Font("Kohinoor Bangla", 0, 17)); // NOI18N
-        lblPassword.setForeground(new java.awt.Color(0, 0, 0));
-        lblPassword.setText("Contraseña");
-        pnlBackground.add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, -1, -1));
-
-        lblUsername.setFont(new java.awt.Font("Kohinoor Bangla", 0, 17)); // NOI18N
-        lblUsername.setForeground(new java.awt.Color(0, 0, 0));
-        lblUsername.setText("Nombre de Usuario");
-        pnlBackground.add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, -1, -1));
-
-        inputPassword.setBackground(new java.awt.Color(245, 245, 245));
-        inputPassword.setForeground(new java.awt.Color(102, 102, 102));
-        inputPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inputPassword.setText("inputPassword");
-        inputPassword.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        pnlBackground.add(inputPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 250, 40));
-
-        inputUsername.setBackground(new java.awt.Color(245, 245, 245));
-        inputUsername.setFont(new java.awt.Font("Kohinoor Bangla", 2, 15)); // NOI18N
-        inputUsername.setForeground(new java.awt.Color(102, 102, 102));
-        inputUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inputUsername.setText("Indique aquí su nombre");
-        inputUsername.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        inputUsername.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        inputUsername.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputUsernameActionPerformed(evt);
-            }
-        });
-        pnlBackground.add(inputUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 250, 40));
-        pnlBackground.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 250, 10));
-        pnlBackground.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 250, 10));
-
-        btnConfirm.setBackground(new java.awt.Color(121, 210, 180));
-        btnConfirm.setFont(new java.awt.Font("Kohinoor Devanagari", 1, 17)); // NOI18N
-        btnConfirm.setForeground(new java.awt.Color(0, 0, 0));
-        btnConfirm.setText("Confirmar");
-        btnConfirm.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnConfirm.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnConfirm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConfirmActionPerformed(evt);
-            }
-        });
-        pnlBackground.add(btnConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, 140, 50));
-
-        lblError.setBackground(new java.awt.Color(255, 255, 255));
-        lblError.setForeground(new java.awt.Color(204, 0, 0));
-        lblError.setText("La contraseña no es válida para este nombre de usuario");
-        pnlBackground.add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, -1, -1));
-
-        BookIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogicFolder/BookIcon.png"))); // NOI18N
-        BookIcon.setText("jLabel4");
-        pnlBackground.add(BookIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, 860, 420));
-
-        getContentPane().add(pnlBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1100, 590));
 
         pnlHeader.setBackground(new java.awt.Color(14, 78, 84));
         pnlHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -171,6 +128,104 @@ public class LoginFrame extends javax.swing.JFrame {
 
         getContentPane().add(pnlFooter, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 710, -1, 40));
 
+        pnlBackground.setBackground(new java.awt.Color(255, 255, 255));
+        pnlBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtSubtitle.setFont(new java.awt.Font("Hiragino Mincho ProN", 2, 24)); // NOI18N
+        txtSubtitle.setForeground(new java.awt.Color(0, 51, 51));
+        txtSubtitle.setText("Venta y Alquiler de Libros");
+        pnlBackground.add(txtSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, -1, -1));
+
+        textTitle.setFont(new java.awt.Font("Grantha Sangam MN", 1, 55)); // NOI18N
+        textTitle.setForeground(new java.awt.Color(0, 0, 0));
+        textTitle.setText("BookLife");
+        pnlBackground.add(textTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 260, -1));
+
+        lblPassword.setFont(new java.awt.Font("Kohinoor Bangla", 0, 17)); // NOI18N
+        lblPassword.setForeground(new java.awt.Color(0, 0, 0));
+        lblPassword.setText("Contraseña");
+        pnlBackground.add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, -1, -1));
+
+        lblUsername.setFont(new java.awt.Font("Kohinoor Bangla", 0, 17)); // NOI18N
+        lblUsername.setForeground(new java.awt.Color(0, 0, 0));
+        lblUsername.setText("Nombre de Usuario");
+        pnlBackground.add(lblUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+
+        inputPassword.setBackground(new java.awt.Color(245, 245, 245));
+        inputPassword.setForeground(new java.awt.Color(102, 102, 102));
+        inputPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inputPassword.setText("inputPassword");
+        inputPassword.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        inputPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                inputPasswordMouseClicked(evt);
+            }
+        });
+        pnlBackground.add(inputPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 250, 40));
+
+        inputUsername.setBackground(new java.awt.Color(245, 245, 245));
+        inputUsername.setFont(new java.awt.Font("Kohinoor Bangla", 2, 15)); // NOI18N
+        inputUsername.setForeground(new java.awt.Color(102, 102, 102));
+        inputUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inputUsername.setText("Indique aquí su nombre");
+        inputUsername.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        inputUsername.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        inputUsername.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                inputUsernameMouseClicked(evt);
+            }
+        });
+        inputUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputUsernameActionPerformed(evt);
+            }
+        });
+        pnlBackground.add(inputUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 250, 40));
+        pnlBackground.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 250, 10));
+        pnlBackground.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 250, 10));
+
+        btnRegister.setBackground(new java.awt.Color(121, 210, 180));
+        btnRegister.setFont(new java.awt.Font("Kohinoor Devanagari", 1, 17)); // NOI18N
+        btnRegister.setForeground(new java.awt.Color(0, 0, 0));
+        btnRegister.setText("Registrarse");
+        btnRegister.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnRegister.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegisterActionPerformed(evt);
+            }
+        });
+        pnlBackground.add(btnRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, 140, 50));
+
+        lblErrorUser.setBackground(new java.awt.Color(255, 255, 255));
+        lblErrorUser.setForeground(new java.awt.Color(204, 0, 0));
+        lblErrorUser.setText("Este nombre de usuario ya existe");
+        pnlBackground.add(lblErrorUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, -1));
+
+        BookIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LogicFolder/BookIcon.png"))); // NOI18N
+        BookIcon.setText("jLabel4");
+        pnlBackground.add(BookIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 140, 860, 420));
+
+        lblErrorPassword.setBackground(new java.awt.Color(255, 255, 255));
+        lblErrorPassword.setForeground(new java.awt.Color(204, 0, 0));
+        lblErrorPassword.setText("La contraseña no es válida para este nombre de usuario");
+        pnlBackground.add(lblErrorPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, -1, -1));
+
+        btnLogin.setBackground(new java.awt.Color(121, 210, 180));
+        btnLogin.setFont(new java.awt.Font("Kohinoor Devanagari", 1, 17)); // NOI18N
+        btnLogin.setForeground(new java.awt.Color(0, 0, 0));
+        btnLogin.setText("Iniciar Sesión");
+        btnLogin.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+        pnlBackground.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 140, 50));
+
+        getContentPane().add(pnlBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1100, 590));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -178,9 +233,47 @@ public class LoginFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputUsernameActionPerformed
 
-    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
-        confirmIfExist(inputUsername.getText(), inputPassword.getText());
-    }//GEN-LAST:event_btnConfirmActionPerformed
+    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+        resetLabels();
+        
+        boolean doesItExist = confirmIfExist( inputUsername.getText(), inputPassword.getText() ); //If the user exists
+        if (doesItExist == false){
+            addUser(inputUsername.getText(), inputPassword.getText());
+            openNewWindow("Normal");
+        } else {
+            lblErrorUser.setVisible(true);
+        }
+    }//GEN-LAST:event_btnRegisterActionPerformed
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        resetLabels();
+        
+        boolean doesItExist = confirmIfExist( inputUsername.getText(), inputPassword.getText() );
+        boolean validPassword = isThePasswordValid( inputPassword.getText() );
+        String userType;
+        if (doesItExist == true && validPassword == true) {
+            if (inputUsername.getText().equals("01Admin")) {
+                userType = "Admin";
+            } else {
+                userType = "Normal";
+            }
+            
+            openNewWindow(userType);
+            
+        } else if (doesItExist == true && validPassword == false) {
+            lblErrorPassword.setVisible(true);
+        } else {
+            lblErrorUser.setVisible(true);
+        }
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void inputUsernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputUsernameMouseClicked
+        resetLabels();
+    }//GEN-LAST:event_inputUsernameMouseClicked
+
+    private void inputPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputPasswordMouseClicked
+        resetLabels();
+    }//GEN-LAST:event_inputPasswordMouseClicked
 
     /**
      * @param args the command line arguments
@@ -219,13 +312,16 @@ public class LoginFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BookIcon;
-    private javax.swing.JButton btnConfirm;
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnRegister;
     private javax.swing.JPasswordField inputPassword;
     private javax.swing.JTextField inputUsername;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JLabel lblError;
+    private javax.swing.JLabel lblError1;
+    private javax.swing.JLabel lblErrorPassword;
+    private javax.swing.JLabel lblErrorUser;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JPanel pnlBackground;
