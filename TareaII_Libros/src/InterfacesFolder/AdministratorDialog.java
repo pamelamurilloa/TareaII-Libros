@@ -5,14 +5,13 @@ import java.util.HashMap;
 import javax.swing.DefaultListModel;
 
 public class AdministratorDialog extends javax.swing.JDialog {
-
     
     private BookModifier bookModif = new BookModifier();
-    
+    DefaultListModel model = new DefaultListModel();
     private int selection = -1;
-    private DefaultListModel model = new DefaultListModel();
-
+    
     private String defaultinputBooknameText = "Indique el nombre del libro";
+    private String bookCountText = "Cantidad de libros: ";
     private String selectedBook;
     
     /**
@@ -24,9 +23,11 @@ public class AdministratorDialog extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         
         hideErrorlbl();
-        listBooks.setModel(model);
         
-        fillInitialList();
+        fillList();
+        
+        btnAddBook.setOpaque(true);
+        btnDeleteBook.setOpaque(true);
         
     }
 
@@ -34,14 +35,24 @@ public class AdministratorDialog extends javax.swing.JDialog {
     public void hideErrorlbl() {
         lblErrorNoName.setVisible(false);
         lblErrorNoSelection.setVisible(false);
+        lblErrorBook.setVisible(false);
+
     }
     
-    public void fillInitialList() {
+    public void fillList() {
         HashMap<String, HashMap> bookHashMap = bookModif.getBookList();
+        DefaultListModel newModel = new DefaultListModel();
+        
         for (String key : bookHashMap.keySet() ) {
-            model.addElement(key);
+            newModel.addElement(key);
         }
+
+        model = newModel;
+        listBooks.setModel( model );
+        int bookCount = bookHashMap.size();
+        lblBookCounter.setText( bookCountText + bookCount);
     }
+    
     
     
     /**
@@ -65,8 +76,9 @@ public class AdministratorDialog extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         listBooks = new javax.swing.JList<>();
         lblErrorNoSelection = new javax.swing.JLabel();
-        lblErrorNoName = new javax.swing.JLabel();
+        lblErrorBook = new javax.swing.JLabel();
         inputBookname = new javax.swing.JTextField();
+        lblErrorNoName = new javax.swing.JLabel();
         pnlFooter = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -117,7 +129,7 @@ public class AdministratorDialog extends javax.swing.JDialog {
                 btnAddBookActionPerformed(evt);
             }
         });
-        pnlBackground.add(btnAddBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 180, 50));
+        pnlBackground.add(btnAddBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 180, 50));
 
         txtWelcome.setFont(new java.awt.Font("Hiragino Mincho ProN", 1, 24)); // NOI18N
         txtWelcome.setForeground(new java.awt.Color(0, 0, 0));
@@ -145,12 +157,12 @@ public class AdministratorDialog extends javax.swing.JDialog {
         pnlBackground.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 130, 290, 320));
 
         lblErrorNoSelection.setForeground(new java.awt.Color(204, 0, 0));
-        lblErrorNoSelection.setText("Seleccione solamente un libro");
+        lblErrorNoSelection.setText("Seleccione un libro");
         pnlBackground.add(lblErrorNoSelection, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 530, -1, -1));
 
-        lblErrorNoName.setForeground(new java.awt.Color(204, 0, 0));
-        lblErrorNoName.setText("No se ha escrito el nombre de ningún libro");
-        pnlBackground.add(lblErrorNoName, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, -1, -1));
+        lblErrorBook.setForeground(new java.awt.Color(204, 0, 0));
+        lblErrorBook.setText("Este libro ya existe en el registro");
+        pnlBackground.add(lblErrorBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, -1, -1));
 
         inputBookname.setBackground(new java.awt.Color(245, 245, 245));
         inputBookname.setFont(new java.awt.Font("Kohinoor Bangla", 0, 18)); // NOI18N
@@ -176,6 +188,10 @@ public class AdministratorDialog extends javax.swing.JDialog {
             }
         });
         pnlBackground.add(inputBookname, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, 350, 40));
+
+        lblErrorNoName.setForeground(new java.awt.Color(204, 0, 0));
+        lblErrorNoName.setText("No se ha escrito el nombre de ningún libro");
+        pnlBackground.add(lblErrorNoName, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, -1, -1));
 
         pnlFooter.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -238,7 +254,7 @@ public class AdministratorDialog extends javax.swing.JDialog {
         
         if (selection >= 0) {
             bookModif.deleteBook( selectedBook );
-            model.removeElementAt( selection );
+            fillList();
             
         } else {
             lblErrorNoSelection.setVisible(true);
@@ -256,18 +272,22 @@ public class AdministratorDialog extends javax.swing.JDialog {
             bookData[1] = 0 + "";
             bookData[2] = 0 + "";
 
-            bookModif.addBook(bookData);
-            
-            model.addElement(bookData[0]);
+            boolean bookAdded = bookModif.addBook(bookData);
+             if (bookAdded == true) {
+                fillList();
+                
+             } else {
+                 lblErrorBook.setVisible(true);
+             }
             
         } else {
-            lblErrorNoName.setVisible(true);
+            lblErrorBook.setVisible(true);
         }
     }//GEN-LAST:event_btnAddBookActionPerformed
 
     private void listBooksValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listBooksValueChanged
         selection = listBooks.getSelectedIndex();
-        selectedBook = model.getElementAt(selection).toString();
+        if (selection >= 0) { selectedBook = model.getElementAt( selection ).toString(); }
     }//GEN-LAST:event_listBooksValueChanged
 
     private void inputBooknameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputBooknameMouseClicked
@@ -340,6 +360,7 @@ public class AdministratorDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBookCounter;
+    private javax.swing.JLabel lblErrorBook;
     private javax.swing.JLabel lblErrorNoName;
     private javax.swing.JLabel lblErrorNoSelection;
     private javax.swing.JList<String> listBooks;
