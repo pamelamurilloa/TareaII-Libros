@@ -21,8 +21,8 @@ public class UserModifier {
         userData[0] = userName;
         userData[1] = subUser.get("type");
         userData[2] = subUser.get("password");
-        userData[1] = subUser.get("booksBought");
-        userData[2] = subUser.get("booksRented");
+        userData[3] = subUser.get("booksBought");
+        userData[4] = subUser.get("booksRented");
         
         
         return userData;
@@ -55,12 +55,13 @@ public class UserModifier {
     }
     
     
-    public boolean addUser(String userName, String password) {
+    public boolean addUser(String userName, String password, String type, String booksBought, String booksRented) {
         boolean userAdded = false;
         
         if (confirmIfUserExist(userName) == false) {
             archiveManager.createFileUsers();
-            archiveManager.writeInFile("users", userName + ", user, " + password + "0, 0");
+            archiveManager.writeInFile("users", userName + ", " + type + ", " + password + ", " + booksBought + ", " + booksRented);
+            
             userAdded = true;
         }
         
@@ -68,7 +69,7 @@ public class UserModifier {
     }
     
     
-    public void deleteBook(String userName){
+    public void deleteUser(String userName){
         archiveManager.createFileUsers();
         ArrayList<String> userList = archiveManager.readInFile("users");
 
@@ -100,15 +101,16 @@ public class UserModifier {
         String[] userInfo = getUserInfo(userName);
 
         if ( boughtOrRented.equals("bought") ) {
-            userInfo[1] = userInfo[1] + 1;
+            userInfo[3] = "" + ( Integer.parseInt (userInfo[3] ) + 1 );
         } else {
-            userInfo[2] = userInfo[2] + 1;
+            userInfo[4] = "" + ( Integer.parseInt (userInfo[4] ) + 1 );
         }
 
-        deleteBook(userName);       // This two lines will
-        addUser(userName, userInfo[2]);          // modify the file of users and update the new value
+        deleteUser(userName);                                                   // This two lines will
+        addUser(userName, userInfo[2], "user", userInfo[3], userInfo[4]);       // modify the file of users and update the new value
    
 
     }
+    
     
 }

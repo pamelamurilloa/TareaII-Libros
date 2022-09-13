@@ -2,9 +2,12 @@ package MainStartFolder;
 
 import InterfacesFolder.LoginFrame;
 import LogicFolder.ArchiveManager;
+import LogicFolder.UserModifier;
 
 public class MainStart {
 
+    private static UserModifier userModif = new UserModifier();
+            
     public static void main(String[] args) {
         addAdministrator();
         
@@ -15,7 +18,7 @@ public class MainStart {
     public static void addAdministrator() {
         ArchiveManager archiveManager = new ArchiveManager();
         archiveManager.createFileUsers();
-        archiveManager.writeInFile("users", "01Admin, administrator, password, 0, 0"); //The 1st is the file (users/books), the 2nd is the information that will be written
+        userModif.addUser("01Admin", "password", "administrator", "0", "0");
         
     }    
     

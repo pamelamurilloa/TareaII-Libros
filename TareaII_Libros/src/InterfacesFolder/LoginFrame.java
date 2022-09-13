@@ -1,7 +1,6 @@
 package InterfacesFolder;
 
-import LogicFolder.ArchiveManager;
-import java.util.ArrayList;
+import LogicFolder.UserModifier;
 import java.util.HashMap;
 
 
@@ -9,7 +8,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
     
     private HashMap<String, HashMap> mainHashMap = new HashMap<String, HashMap>();
-    private ArchiveManager archiveManager = new ArchiveManager();
+    private UserModifier userModif = new UserModifier();
     
     private String defaultUsernameText = "Indique aquí su nombre";
     private String defaultPasswordText = "*********";
@@ -22,42 +21,29 @@ public class LoginFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
         resetLabels();
-        getUserFile();
+        fillMainHashMap();
         
         btnLogin.setOpaque(true);
         btnRegister.setOpaque(true);
+        
+
     }
 
     public void resetLabels() {
         lblErrorUser.setVisible(false);
         lblErrorPassword.setVisible(false);
-    }
-    
-    public void getUserFile() {
-        archiveManager.createFileUsers();
-        ArrayList userList = archiveManager.readInFile("users");
         
-        for (int line = 0; userList.size() > line; line++) {
-            String newLine = userList.get(line).toString();
-            String[] newLineArray = newLine.split(", ");
-            
-            HashMap<String, String> subHashMap = new HashMap<String, String>();
-            subHashMap.put("type", newLineArray[1]);
-            subHashMap.put("password", newLineArray[2]);
-            
-            mainHashMap.put(newLineArray[0], subHashMap);
-        }
+    }
+    
+    public void fillMainHashMap() {
+        mainHashMap = userModif.getUserFile();
     }
     
     
-    public boolean confirmIfUserExist(String userName) {
-        boolean doesItExist = mainHashMap.containsKey(userName) && userName != defaultUsernameText;
-        return doesItExist;
-    }
     
     public boolean isThePasswordValid(String userName, String password) {
         boolean isValid = false;
-        HashMap<String, String> userInfo = mainHashMap.get(userName);
+        HashMap<String, String> userInfo = mainHashMap.get( userName );
         String filePassword = userInfo.get("password");
         
         if (filePassword.equals(password)) {
@@ -66,27 +52,26 @@ public class LoginFrame extends javax.swing.JFrame {
         
         return isValid;
     }
-
-    
-    public void addUser(String userName, String password) {
-        archiveManager.createFileUsers();
-        archiveManager.writeInFile("users", userName + ", user, " + password);
-        getUserFile();
-    }
     
     
     public void openNewWindow(String userName) {
         HashMap<String, String> userInfo = mainHashMap.get(userName);
+        
         String userType = userInfo.get("type"); //This will get either "administrator" or "user"
         
         if (userType.equals("administrator")) {
             AdministratorDialog newWindow = new AdministratorDialog(this, true);
+            inputUsername.setText(defaultUsernameText);
+            inputPassword.setText(defaultPasswordText);
             newWindow.setVisible(true);
         } else {
-            UserDialog newWindow = new UserDialog(this, true);
+            UserDialog newWindow = new UserDialog(this, true, inputUsername.getText());
+            inputUsername.setText(defaultUsernameText);
+            inputPassword.setText(defaultPasswordText);
             newWindow.setVisible(true);
         }
     }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -281,15 +266,19 @@ public class LoginFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputUsernameActionPerformed
 
+    
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         resetLabels();
         
-        boolean doesItExist = confirmIfUserExist( inputUsername.getText() ); //If the user exists
-        if (doesItExist == false){
-            addUser(inputUsername.getText(), String.valueOf(inputPassword.getPassword()) );
-            openNewWindow("Normal");
-        } else {
-            lblErrorUser.setVisible(true);
+        if (!inputUsername.getText().equals(defaultUsernameText)) {
+            boolean userAdded = userModif.addUser(inputUsername.getText(), String.valueOf( inputPassword.getPassword() ), "user", "0", "0");
+            fillMainHashMap();
+            
+            if (userAdded == false) {
+                lblErrorUser.setVisible(true);
+            } else {
+                openNewWindow("Normal");
+            }
         }
     }//GEN-LAST:event_btnRegisterActionPerformed
 
@@ -297,10 +286,10 @@ public class LoginFrame extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         resetLabels();
         
-        boolean doesItExist = confirmIfUserExist( inputUsername.getText() );
+        boolean doesItExist = userModif.confirmIfUserExist( inputUsername.getText() );
         
         if (doesItExist == true) {
-            boolean validPassword = isThePasswordValid( inputUsername.getText(), String.valueOf(inputPassword.getPassword()) );
+            boolean validPassword = isThePasswordValid( inputUsername.getText(), String.valueOf( inputPassword.getPassword() ) );
             if (validPassword == true){
                 openNewWindow( inputUsername.getText() );
                 

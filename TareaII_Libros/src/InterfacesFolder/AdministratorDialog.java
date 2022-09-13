@@ -7,7 +7,7 @@ import javax.swing.DefaultListModel;
 public class AdministratorDialog extends javax.swing.JDialog {
     
     private BookModifier bookModif = new BookModifier();
-    DefaultListModel model = new DefaultListModel();
+    private DefaultListModel model = new DefaultListModel();
     private int selection = -1;
     
     private String defaultinputBooknameText = "Indique el nombre del libro";
@@ -28,6 +28,7 @@ public class AdministratorDialog extends javax.swing.JDialog {
         
         btnAddBook.setOpaque(true);
         btnDeleteBook.setOpaque(true);
+        btnRestart.setOpaque(true);
         
     }
 
@@ -67,13 +68,14 @@ public class AdministratorDialog extends javax.swing.JDialog {
         pnlHeader = new javax.swing.JPanel();
         textTitle = new javax.swing.JLabel();
         txtSubtitle = new javax.swing.JLabel();
+        btnRestart = new javax.swing.JButton();
         pnlBackground = new javax.swing.JPanel();
         txtBookList = new javax.swing.JLabel();
         btnDeleteBook = new javax.swing.JButton();
         btnAddBook = new javax.swing.JButton();
         txtWelcome = new javax.swing.JLabel();
         lblBookCounter = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        bookScrollPane = new javax.swing.JScrollPane();
         listBooks = new javax.swing.JList<>();
         lblErrorNoSelection = new javax.swing.JLabel();
         lblErrorBook = new javax.swing.JLabel();
@@ -96,6 +98,19 @@ public class AdministratorDialog extends javax.swing.JDialog {
         txtSubtitle.setForeground(new java.awt.Color(232, 250, 242));
         txtSubtitle.setText("Venta y Alquiler de Libros");
         pnlHeader.add(txtSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, -1, -1));
+
+        btnRestart.setBackground(new java.awt.Color(124, 204, 182));
+        btnRestart.setFont(new java.awt.Font("Kohinoor Devanagari", 1, 17)); // NOI18N
+        btnRestart.setForeground(new java.awt.Color(0, 102, 102));
+        btnRestart.setText("Regresar al Inicio");
+        btnRestart.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 153, 102))); // NOI18N
+        btnRestart.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRestart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestartActionPerformed(evt);
+            }
+        });
+        pnlHeader.add(btnRestart, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, 170, 40));
 
         pnlBackground.setBackground(new java.awt.Color(255, 255, 255));
         pnlBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -141,8 +156,8 @@ public class AdministratorDialog extends javax.swing.JDialog {
         lblBookCounter.setText("Cantidad de libros:");
         pnlBackground.add(lblBookCounter, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 100, -1, -1));
 
-        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane2.setForeground(new java.awt.Color(0, 0, 0));
+        bookScrollPane.setBackground(new java.awt.Color(255, 255, 255));
+        bookScrollPane.setForeground(new java.awt.Color(0, 0, 0));
 
         listBooks.setBackground(new java.awt.Color(245, 245, 245));
         listBooks.setForeground(new java.awt.Color(0, 43, 51));
@@ -152,9 +167,9 @@ public class AdministratorDialog extends javax.swing.JDialog {
                 listBooksValueChanged(evt);
             }
         });
-        jScrollPane2.setViewportView(listBooks);
+        bookScrollPane.setViewportView(listBooks);
 
-        pnlBackground.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 130, 290, 320));
+        pnlBackground.add(bookScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 130, 290, 320));
 
         lblErrorNoSelection.setForeground(new java.awt.Color(204, 0, 0));
         lblErrorNoSelection.setText("Seleccione un libro");
@@ -311,6 +326,10 @@ public class AdministratorDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_inputBooknameActionPerformed
 
+    private void btnRestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestartActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnRestartActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -354,11 +373,12 @@ public class AdministratorDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane bookScrollPane;
     private javax.swing.JButton btnAddBook;
     private javax.swing.JButton btnDeleteBook;
+    private javax.swing.JButton btnRestart;
     private javax.swing.JTextField inputBookname;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBookCounter;
     private javax.swing.JLabel lblErrorBook;
     private javax.swing.JLabel lblErrorNoName;

@@ -1,19 +1,60 @@
 package InterfacesFolder;
 
+import LogicFolder.BookModifier;
+import LogicFolder.UserModifier;
+import java.util.HashMap;
+import javax.swing.DefaultListModel;
+
 
 public class UserDialog extends javax.swing.JDialog {
+
+    
+    private BookModifier bookModif = new BookModifier();
+    private UserModifier userModif = new UserModifier();
+    private DefaultListModel model = new DefaultListModel();
+    private String bookCountText = "Cantidad de libros: ";
+    
+    private int selection = -1;
+    private String selectedBook;
+    private String userName;
+
 
     /**
      * Creates new form UserDialog
      */
-    public UserDialog(java.awt.Frame parent, boolean modal) {
+    public UserDialog(java.awt.Frame parent, boolean modal, String userName) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        this.userName = userName;
+        
+        rbtnBuyBook.setSelected(true);
+        btnConfirm.setOpaque(true);
+        btnRestart.setOpaque(true);
+        
+        fillList();
+        hideErrorlbl();
     }
 
+    public void hideErrorlbl() {
+        lblErrorNoBook.setVisible(false);
+
+    }
     
-    
+    public void fillList() {
+        HashMap<String, HashMap> bookHashMap = bookModif.getBookList();
+        DefaultListModel newModel = new DefaultListModel();
+        
+        for (String key : bookHashMap.keySet() ) {
+            newModel.addElement(key);
+        }
+
+        model = newModel;
+        listBooks.setModel( model );
+        int bookCount = bookHashMap.size();
+        lblBookCounter.setText( bookCountText + bookCount);
+    }
     
     
     /**
@@ -25,13 +66,30 @@ public class UserDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnGroupBuySell = new javax.swing.ButtonGroup();
         pnlHeader = new javax.swing.JPanel();
         textTitle = new javax.swing.JLabel();
         txtSubtitle = new javax.swing.JLabel();
+        btnRestart = new javax.swing.JButton();
         pnlFooter = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         pnlBackground = new javax.swing.JPanel();
         txtWelcome = new javax.swing.JLabel();
+        txtBookList = new javax.swing.JLabel();
+        lblBookCounter = new javax.swing.JLabel();
+        btnConfirm = new javax.swing.JButton();
+        rbtnBuyBook = new javax.swing.JRadioButton();
+        rbtnRentBook = new javax.swing.JRadioButton();
+        txtWelcome1 = new javax.swing.JLabel();
+        txtUserRented = new javax.swing.JLabel();
+        lblBookname = new javax.swing.JLabel();
+        lblSells = new javax.swing.JLabel();
+        lblRent = new javax.swing.JLabel();
+        booksScrollPane = new javax.swing.JScrollPane();
+        listBooks = new javax.swing.JList<>();
+        lblErrorNoBook = new javax.swing.JLabel();
+        lblInfoUser1 = new javax.swing.JLabel();
+        txtUserBought = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -48,6 +106,19 @@ public class UserDialog extends javax.swing.JDialog {
         txtSubtitle.setForeground(new java.awt.Color(232, 250, 242));
         txtSubtitle.setText("Venta y Alquiler de Libros");
         pnlHeader.add(txtSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, -1, -1));
+
+        btnRestart.setBackground(new java.awt.Color(124, 204, 182));
+        btnRestart.setFont(new java.awt.Font("Kohinoor Devanagari", 1, 17)); // NOI18N
+        btnRestart.setForeground(new java.awt.Color(0, 102, 102));
+        btnRestart.setText("Regresar al Inicio");
+        btnRestart.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 153, 102))); // NOI18N
+        btnRestart.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRestart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestartActionPerformed(evt);
+            }
+        });
+        pnlHeader.add(btnRestart, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, 170, 40));
 
         getContentPane().add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 130));
 
@@ -80,15 +151,153 @@ public class UserDialog extends javax.swing.JDialog {
         pnlBackground.setBackground(new java.awt.Color(255, 255, 255));
         pnlBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtWelcome.setFont(new java.awt.Font("Hiragino Mincho ProN", 1, 24)); // NOI18N
+        txtWelcome.setFont(new java.awt.Font("Hiragino Sans", 1, 18)); // NOI18N
         txtWelcome.setForeground(new java.awt.Color(0, 0, 0));
-        txtWelcome.setText("Bienvenido Usuario");
-        pnlBackground.add(txtWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
+        txtWelcome.setText("Seleccione la opción y el libro que desee");
+        pnlBackground.add(txtWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
+
+        txtBookList.setFont(new java.awt.Font("Kohinoor Devanagari", 0, 24)); // NOI18N
+        txtBookList.setForeground(new java.awt.Color(0, 0, 0));
+        txtBookList.setText("Lista de libros disponibles");
+        pnlBackground.add(txtBookList, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 30, -1, -1));
+
+        lblBookCounter.setFont(new java.awt.Font("Hiragino Sans", 0, 16)); // NOI18N
+        lblBookCounter.setForeground(new java.awt.Color(0, 0, 0));
+        lblBookCounter.setText("Cantidad de libros:");
+        pnlBackground.add(lblBookCounter, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 70, -1, -1));
+
+        btnConfirm.setBackground(new java.awt.Color(124, 204, 182));
+        btnConfirm.setFont(new java.awt.Font("Kohinoor Devanagari", 1, 17)); // NOI18N
+        btnConfirm.setForeground(new java.awt.Color(0, 0, 0));
+        btnConfirm.setText("Confirmar");
+        btnConfirm.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 153, 102))); // NOI18N
+        btnConfirm.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmActionPerformed(evt);
+            }
+        });
+        pnlBackground.add(btnConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 180, 50));
+
+        rbtnBuyBook.setBackground(new java.awt.Color(255, 255, 255));
+        btnGroupBuySell.add(rbtnBuyBook);
+        rbtnBuyBook.setFont(new java.awt.Font("Kohinoor Bangla", 0, 24)); // NOI18N
+        rbtnBuyBook.setForeground(new java.awt.Color(0, 0, 0));
+        rbtnBuyBook.setText("Comprar");
+        rbtnBuyBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        rbtnBuyBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnBuyBookActionPerformed(evt);
+            }
+        });
+        pnlBackground.add(rbtnBuyBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
+
+        rbtnRentBook.setBackground(new java.awt.Color(255, 255, 255));
+        btnGroupBuySell.add(rbtnRentBook);
+        rbtnRentBook.setFont(new java.awt.Font("Kohinoor Bangla", 0, 24)); // NOI18N
+        rbtnRentBook.setForeground(new java.awt.Color(0, 0, 0));
+        rbtnRentBook.setText("Alquilar");
+        rbtnRentBook.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlBackground.add(rbtnRentBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, -1, -1));
+
+        txtWelcome1.setFont(new java.awt.Font("Hiragino Mincho ProN", 1, 24)); // NOI18N
+        txtWelcome1.setForeground(new java.awt.Color(0, 0, 0));
+        txtWelcome1.setText("Bienvenido Usuario");
+        pnlBackground.add(txtWelcome1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
+
+        txtUserRented.setFont(new java.awt.Font("Kohinoor Devanagari", 0, 18)); // NOI18N
+        txtUserRented.setForeground(new java.awt.Color(0, 0, 0));
+        txtUserRented.setText("Libros Rentados: ");
+        pnlBackground.add(txtUserRented, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 520, 190, 40));
+
+        lblBookname.setFont(new java.awt.Font("Kohinoor Devanagari", 0, 18)); // NOI18N
+        lblBookname.setForeground(new java.awt.Color(0, 0, 0));
+        lblBookname.setText("Nombre del libro");
+        pnlBackground.add(lblBookname, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 120, 150, 40));
+
+        lblSells.setFont(new java.awt.Font("Kohinoor Devanagari", 0, 18)); // NOI18N
+        lblSells.setForeground(new java.awt.Color(0, 0, 0));
+        lblSells.setText("Compras mundiales");
+        pnlBackground.add(lblSells, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 120, 170, 40));
+
+        lblRent.setFont(new java.awt.Font("Kohinoor Devanagari", 0, 18)); // NOI18N
+        lblRent.setForeground(new java.awt.Color(0, 0, 0));
+        lblRent.setText("Alquileres mundiales");
+        pnlBackground.add(lblRent, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 120, 170, 40));
+
+        listBooks.setBackground(new java.awt.Color(245, 245, 245));
+        listBooks.setFont(new java.awt.Font("Hiragino Maru Gothic ProN", 0, 12)); // NOI18N
+        listBooks.setForeground(new java.awt.Color(0, 0, 0));
+        listBooks.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        listBooks.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listBooksValueChanged(evt);
+            }
+        });
+        booksScrollPane.setViewportView(listBooks);
+
+        pnlBackground.add(booksScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, 260, 300));
+
+        lblErrorNoBook.setForeground(new java.awt.Color(204, 0, 0));
+        lblErrorNoBook.setText("No se ha seleccionado un libro");
+        pnlBackground.add(lblErrorNoBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 500, 630, -1));
+
+        lblInfoUser1.setFont(new java.awt.Font("Kohinoor Devanagari", 1, 18)); // NOI18N
+        lblInfoUser1.setForeground(new java.awt.Color(0, 0, 0));
+        lblInfoUser1.setText("Datos del Usuario");
+        pnlBackground.add(lblInfoUser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 190, 40));
+
+        txtUserBought.setFont(new java.awt.Font("Kohinoor Devanagari", 0, 18)); // NOI18N
+        txtUserBought.setForeground(new java.awt.Color(0, 0, 0));
+        txtUserBought.setText("Libros Comprados: ");
+        pnlBackground.add(txtUserBought, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 190, 40));
 
         getContentPane().add(pnlBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1100, 590));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
+        hideErrorlbl();
+
+        if (selection < 0) {
+            lblErrorNoBook.setVisible(true);
+            
+        } else {
+            String boughtOrRented = "";
+            selectedBook = model.getElementAt( selection ).toString();
+            
+            if ( rbtnBuyBook.isSelected()) {
+                boughtOrRented = "bought";
+            } else if (rbtnRentBook.isSelected()) {
+                boughtOrRented = "rented";
+            }
+            
+            bookModif.changeBook(selectedBook, boughtOrRented); //This will modify the file of the books
+            userModif.changeUser(userName, boughtOrRented);     //And this the file of the user
+            
+            String[] userData = userModif.getUserInfo(userName);
+            txtUserBought.setText("Libros Comprados: " + userData[3] );
+            txtUserRented.setText("Libros Rentados: " + userData[4] );
+        }
+ 
+    }//GEN-LAST:event_btnConfirmActionPerformed
+
+    private void rbtnBuyBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnBuyBookActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbtnBuyBookActionPerformed
+
+    private void btnRestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestartActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnRestartActionPerformed
+
+    private void listBooksValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listBooksValueChanged
+        selection = listBooks.getSelectedIndex();
+    }//GEN-LAST:event_listBooksValueChanged
 
     /**
      * @param args the command line arguments
@@ -120,7 +329,7 @@ public class UserDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                UserDialog dialog = new UserDialog(new javax.swing.JFrame(), true);
+                UserDialog dialog = new UserDialog(new javax.swing.JFrame(), true, "Pamela");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -133,12 +342,29 @@ public class UserDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane booksScrollPane;
+    private javax.swing.JButton btnConfirm;
+    private javax.swing.ButtonGroup btnGroupBuySell;
+    private javax.swing.JButton btnRestart;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblBookCounter;
+    private javax.swing.JLabel lblBookname;
+    private javax.swing.JLabel lblErrorNoBook;
+    private javax.swing.JLabel lblInfoUser1;
+    private javax.swing.JLabel lblRent;
+    private javax.swing.JLabel lblSells;
+    private javax.swing.JList<String> listBooks;
     private javax.swing.JPanel pnlBackground;
     private javax.swing.JPanel pnlFooter;
     private javax.swing.JPanel pnlHeader;
+    private javax.swing.JRadioButton rbtnBuyBook;
+    private javax.swing.JRadioButton rbtnRentBook;
     private javax.swing.JLabel textTitle;
+    private javax.swing.JLabel txtBookList;
     private javax.swing.JLabel txtSubtitle;
+    private javax.swing.JLabel txtUserBought;
+    private javax.swing.JLabel txtUserRented;
     private javax.swing.JLabel txtWelcome;
+    private javax.swing.JLabel txtWelcome1;
     // End of variables declaration//GEN-END:variables
 }

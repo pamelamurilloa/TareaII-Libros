@@ -90,4 +90,26 @@ public class BookModifier {
 
     }
     
+    public boolean changeBook(String bookName, String boughtOrRented) {
+        boolean bookChanged = false;
+        
+        if ( doesItExist(bookName) ) {
+            String[] bookInfo = getBookInfo(bookName);
+
+            if ( boughtOrRented.equals("bought") ) {
+                bookInfo[1] = "" + ( Integer.parseInt(bookInfo[1] ) + 1);
+            } else {
+                bookInfo[2] = "" + ( Integer.parseInt(bookInfo[2] ) + 1);
+            }
+            
+            deleteBook(bookName);       // This two lines will
+            addBook(bookInfo);          // modify the file of books and update the new value
+            
+            bookChanged = true;    
+            
+        }
+        
+        return bookChanged;
+    }
+    
 }
