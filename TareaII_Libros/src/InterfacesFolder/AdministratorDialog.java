@@ -2,6 +2,8 @@ package InterfacesFolder;
 
 public class AdministratorDialog extends javax.swing.JDialog {
 
+    
+    private String defaultinputBooknameText = "Indique el nombre del libro";
     /**
      * Creates new form AdministratorDialog
      */
@@ -9,6 +11,8 @@ public class AdministratorDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        
     }
 
     
@@ -28,14 +32,14 @@ public class AdministratorDialog extends javax.swing.JDialog {
         textTitle = new javax.swing.JLabel();
         txtSubtitle = new javax.swing.JLabel();
         pnlBackground = new javax.swing.JPanel();
-        txtWelcome = new javax.swing.JLabel();
+        txtBookList = new javax.swing.JLabel();
         btnDeleteBook = new javax.swing.JButton();
         btnAddBook = new javax.swing.JButton();
         inputBookname = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listBook = new javax.swing.JList<>();
-        txtWelcome1 = new javax.swing.JLabel();
+        txtWelcome = new javax.swing.JLabel();
         lblBookCounter = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listBooks = new javax.swing.JList<>();
         pnlFooter = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -57,10 +61,10 @@ public class AdministratorDialog extends javax.swing.JDialog {
         pnlBackground.setBackground(new java.awt.Color(255, 255, 255));
         pnlBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtWelcome.setFont(new java.awt.Font("Kohinoor Devanagari", 0, 24)); // NOI18N
-        txtWelcome.setForeground(new java.awt.Color(0, 0, 0));
-        txtWelcome.setText("Lista de libros disponibles");
-        pnlBackground.add(txtWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 100, -1, -1));
+        txtBookList.setFont(new java.awt.Font("Kohinoor Devanagari", 0, 24)); // NOI18N
+        txtBookList.setForeground(new java.awt.Color(0, 0, 0));
+        txtBookList.setText("Lista de libros disponibles");
+        pnlBackground.add(txtBookList, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 100, -1, -1));
 
         btnDeleteBook.setBackground(new java.awt.Color(124, 204, 182));
         btnDeleteBook.setFont(new java.awt.Font("Kohinoor Devanagari", 1, 17)); // NOI18N
@@ -97,9 +101,6 @@ public class AdministratorDialog extends javax.swing.JDialog {
         inputBookname.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         inputBookname.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         inputBookname.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                inputBooknameMouseClicked(evt);
-            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 inputBooknameMouseExited(evt);
             }
@@ -114,25 +115,29 @@ public class AdministratorDialog extends javax.swing.JDialog {
         });
         pnlBackground.add(inputBookname, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 480, 40));
 
-        listBook.setBackground(new java.awt.Color(245, 245, 245));
-        listBook.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(listBook);
-
-        pnlBackground.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 160, 280, 320));
-
-        txtWelcome1.setFont(new java.awt.Font("Hiragino Mincho ProN", 1, 24)); // NOI18N
-        txtWelcome1.setForeground(new java.awt.Color(0, 0, 0));
-        txtWelcome1.setText("Bienvenido Administrador");
-        pnlBackground.add(txtWelcome1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
+        txtWelcome.setFont(new java.awt.Font("Hiragino Mincho ProN", 1, 24)); // NOI18N
+        txtWelcome.setForeground(new java.awt.Color(0, 0, 0));
+        txtWelcome.setText("Bienvenido Administrador");
+        pnlBackground.add(txtWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
 
         lblBookCounter.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         lblBookCounter.setForeground(new java.awt.Color(0, 0, 0));
         lblBookCounter.setText("Cantidad de libros:");
         pnlBackground.add(lblBookCounter, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 490, -1, -1));
+
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setForeground(new java.awt.Color(0, 0, 0));
+
+        listBooks.setBackground(new java.awt.Color(245, 245, 245));
+        listBooks.setForeground(new java.awt.Color(0, 43, 51));
+        listBooks.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listBooksValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(listBooks);
+
+        pnlBackground.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 160, 290, 320));
 
         pnlFooter.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -198,21 +203,25 @@ public class AdministratorDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAddBookActionPerformed
 
-    private void inputBooknameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputBooknameMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputBooknameMouseClicked
-
     private void inputBooknameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputBooknameMouseExited
-        // TODO add your handling code here:
+        if ( inputBookname.getText().equals("") ){
+            inputBookname.setText(defaultinputBooknameText);
+        }
     }//GEN-LAST:event_inputBooknameMouseExited
 
     private void inputBooknameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputBooknameMouseEntered
-        // TODO add your handling code here:
+        if ( inputBookname.getText().equals(defaultinputBooknameText) ){
+            inputBookname.setText("");
+        }
     }//GEN-LAST:event_inputBooknameMouseEntered
 
     private void inputBooknameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputBooknameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputBooknameActionPerformed
+
+    private void listBooksValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listBooksValueChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_listBooksValueChanged
 
     /**
      * @param args the command line arguments
@@ -261,15 +270,15 @@ public class AdministratorDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnDeleteBook;
     private javax.swing.JTextField inputBookname;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBookCounter;
-    private javax.swing.JList<String> listBook;
+    private javax.swing.JList<String> listBooks;
     private javax.swing.JPanel pnlBackground;
     private javax.swing.JPanel pnlFooter;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JLabel textTitle;
+    private javax.swing.JLabel txtBookList;
     private javax.swing.JLabel txtSubtitle;
     private javax.swing.JLabel txtWelcome;
-    private javax.swing.JLabel txtWelcome1;
     // End of variables declaration//GEN-END:variables
 }
