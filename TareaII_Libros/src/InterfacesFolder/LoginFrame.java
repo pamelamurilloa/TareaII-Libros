@@ -12,7 +12,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private ArchiveManager archiveManager = new ArchiveManager();
     
     private String defaultUsernameText = "Indique aquí su nombre";
-    private String defaultPasswordText = "***";
+    private String defaultPasswordText = "*********";
     
     /**
      * Creates new form LoginFrame
@@ -57,8 +57,8 @@ public class LoginFrame extends javax.swing.JFrame {
     
     public boolean isThePasswordValid(String userName, String password) {
         boolean isValid = false;
-        HashMap userInfo = mainHashMap.get(userName);
-        String filePassword = userInfo.get("password").toString();
+        HashMap<String, String> userInfo = mainHashMap.get(userName);
+        String filePassword = userInfo.get("password");
         
         if (filePassword.equals(password)) {
             isValid = true;
@@ -76,8 +76,8 @@ public class LoginFrame extends javax.swing.JFrame {
     
     
     public void openNewWindow(String userName) {
-        HashMap userInfo = mainHashMap.get(userName);
-        String userType = userInfo.get("type").toString(); //This will get either "administrator" or "user"
+        HashMap<String, String> userInfo = mainHashMap.get(userName);
+        String userType = userInfo.get("type"); //This will get either "administrator" or "user"
         
         if (userType.equals("administrator")) {
             AdministratorDialog newWindow = new AdministratorDialog(this, true);
