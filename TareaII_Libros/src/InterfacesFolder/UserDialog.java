@@ -33,8 +33,10 @@ public class UserDialog extends javax.swing.JDialog {
         btnConfirm.setOpaque(true);
         btnRestart.setOpaque(true);
         
-        fillList();
+        fillBookList();
         hideErrorlbl();
+        updateUserInfo();
+        updateBoughtRentList();
     }
 
     public void hideErrorlbl() {
@@ -42,7 +44,7 @@ public class UserDialog extends javax.swing.JDialog {
 
     }
     
-    public void fillList() {
+    public void fillBookList() {
         HashMap<String, HashMap> bookHashMap = bookModif.getBookList();
         DefaultListModel newModel = new DefaultListModel();
         
@@ -56,7 +58,28 @@ public class UserDialog extends javax.swing.JDialog {
         lblBookCounter.setText( bookCountText + bookCount);
     }
     
+    public void updateBoughtRentList() {
+        HashMap<String, HashMap> bookHashMap = bookModif.getBookList();
+        DefaultListModel newBoughtModel = new DefaultListModel();
+        DefaultListModel newRentModel = new DefaultListModel();
+        
+        for (String key : bookHashMap.keySet() ) {
+            HashMap<String, String> subBook = bookHashMap.get(key);
+
+            newBoughtModel.addElement( subBook.get("timesBought") );
+            newRentModel.addElement( subBook.get("timesRented") );
+        }
+     
+        listBought.setModel(newBoughtModel);
+        listRent.setModel(newRentModel);
+        
+    }
     
+    public void updateUserInfo() {
+        String[] userData = userModif.getUserInfo(userName);
+        txtUserBought.setText("Libros Comprados: " + userData[3] );
+        txtUserRented.setText("Libros Rentados: " + userData[4] );
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -86,10 +109,14 @@ public class UserDialog extends javax.swing.JDialog {
         lblSells = new javax.swing.JLabel();
         lblRent = new javax.swing.JLabel();
         booksScrollPane = new javax.swing.JScrollPane();
-        listBooks = new javax.swing.JList<>();
+        listRent = new javax.swing.JList<>();
         lblErrorNoBook = new javax.swing.JLabel();
         lblInfoUser1 = new javax.swing.JLabel();
         txtUserBought = new javax.swing.JLabel();
+        booksScrollPane1 = new javax.swing.JScrollPane();
+        listBooks = new javax.swing.JList<>();
+        booksScrollPane2 = new javax.swing.JScrollPane();
+        listBought = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -225,22 +252,22 @@ public class UserDialog extends javax.swing.JDialog {
         lblRent.setText("Alquileres mundiales");
         pnlBackground.add(lblRent, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 120, 170, 40));
 
-        listBooks.setBackground(new java.awt.Color(245, 245, 245));
-        listBooks.setFont(new java.awt.Font("Hiragino Maru Gothic ProN", 0, 12)); // NOI18N
-        listBooks.setForeground(new java.awt.Color(0, 0, 0));
-        listBooks.setModel(new javax.swing.AbstractListModel<String>() {
+        listRent.setBackground(new java.awt.Color(245, 245, 245));
+        listRent.setFont(new java.awt.Font("Hiragino Maru Gothic ProN", 0, 12)); // NOI18N
+        listRent.setForeground(new java.awt.Color(0, 0, 0));
+        listRent.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        listBooks.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        listRent.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                listBooksValueChanged(evt);
+                listRentValueChanged(evt);
             }
         });
-        booksScrollPane.setViewportView(listBooks);
+        booksScrollPane.setViewportView(listRent);
 
-        pnlBackground.add(booksScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, 260, 300));
+        pnlBackground.add(booksScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 180, 160, 300));
 
         lblErrorNoBook.setForeground(new java.awt.Color(204, 0, 0));
         lblErrorNoBook.setText("No se ha seleccionado un libro");
@@ -255,6 +282,40 @@ public class UserDialog extends javax.swing.JDialog {
         txtUserBought.setForeground(new java.awt.Color(0, 0, 0));
         txtUserBought.setText("Libros Comprados: ");
         pnlBackground.add(txtUserBought, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 190, 40));
+
+        listBooks.setBackground(new java.awt.Color(245, 245, 245));
+        listBooks.setFont(new java.awt.Font("Hiragino Maru Gothic ProN", 0, 12)); // NOI18N
+        listBooks.setForeground(new java.awt.Color(0, 0, 0));
+        listBooks.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        listBooks.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listBooksValueChanged(evt);
+            }
+        });
+        booksScrollPane1.setViewportView(listBooks);
+
+        pnlBackground.add(booksScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, 260, 300));
+
+        listBought.setBackground(new java.awt.Color(245, 245, 245));
+        listBought.setFont(new java.awt.Font("Hiragino Maru Gothic ProN", 0, 12)); // NOI18N
+        listBought.setForeground(new java.awt.Color(0, 0, 0));
+        listBought.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        listBought.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listBoughtValueChanged(evt);
+            }
+        });
+        booksScrollPane2.setViewportView(listBought);
+
+        pnlBackground.add(booksScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 180, 160, 300));
 
         getContentPane().add(pnlBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1100, 590));
 
@@ -280,9 +341,9 @@ public class UserDialog extends javax.swing.JDialog {
             bookModif.changeBook(selectedBook, boughtOrRented); //This will modify the file of the books
             userModif.changeUser(userName, boughtOrRented);     //And this the file of the user
             
-            String[] userData = userModif.getUserInfo(userName);
-            txtUserBought.setText("Libros Comprados: " + userData[3] );
-            txtUserRented.setText("Libros Rentados: " + userData[4] );
+            updateBoughtRentList();
+            updateUserInfo();
+
         }
  
     }//GEN-LAST:event_btnConfirmActionPerformed
@@ -295,9 +356,17 @@ public class UserDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnRestartActionPerformed
 
+    private void listRentValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listRentValueChanged
+        
+    }//GEN-LAST:event_listRentValueChanged
+
     private void listBooksValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listBooksValueChanged
         selection = listBooks.getSelectedIndex();
     }//GEN-LAST:event_listBooksValueChanged
+
+    private void listBoughtValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listBoughtValueChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_listBoughtValueChanged
 
     /**
      * @param args the command line arguments
@@ -343,6 +412,8 @@ public class UserDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane booksScrollPane;
+    private javax.swing.JScrollPane booksScrollPane1;
+    private javax.swing.JScrollPane booksScrollPane2;
     private javax.swing.JButton btnConfirm;
     private javax.swing.ButtonGroup btnGroupBuySell;
     private javax.swing.JButton btnRestart;
@@ -354,6 +425,8 @@ public class UserDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblRent;
     private javax.swing.JLabel lblSells;
     private javax.swing.JList<String> listBooks;
+    private javax.swing.JList<String> listBought;
+    private javax.swing.JList<String> listRent;
     private javax.swing.JPanel pnlBackground;
     private javax.swing.JPanel pnlFooter;
     private javax.swing.JPanel pnlHeader;
