@@ -1,13 +1,19 @@
 package InterfacesFolder;
 
 import LogicFolder.BookModifier;
+import javax.swing.DefaultListModel;
 
 public class AdministratorDialog extends javax.swing.JDialog {
 
     
-    BookModifier bookModif = new BookModifier();
+    private BookModifier bookModif = new BookModifier();
     
+    private int selection = -1;
+    private DefaultListModel model = new DefaultListModel();
+
     private String defaultinputBooknameText = "Indique el nombre del libro";
+    private String selectedBook;
+    
     /**
      * Creates new form AdministratorDialog
      */
@@ -17,6 +23,9 @@ public class AdministratorDialog extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         
         hideErrorlbl();
+        listBooks.setModel(model);
+        
+        
     }
 
     
@@ -42,13 +51,13 @@ public class AdministratorDialog extends javax.swing.JDialog {
         txtBookList = new javax.swing.JLabel();
         btnDeleteBook = new javax.swing.JButton();
         btnAddBook = new javax.swing.JButton();
-        inputBookname = new javax.swing.JTextField();
         txtWelcome = new javax.swing.JLabel();
         lblBookCounter = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         listBooks = new javax.swing.JList<>();
         lblErrorNoSelection = new javax.swing.JLabel();
         lblErrorNoName = new javax.swing.JLabel();
+        inputBookname = new javax.swing.JTextField();
         pnlFooter = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -101,29 +110,6 @@ public class AdministratorDialog extends javax.swing.JDialog {
         });
         pnlBackground.add(btnAddBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 180, 50));
 
-        inputBookname.setEditable(false);
-        inputBookname.setBackground(new java.awt.Color(245, 245, 245));
-        inputBookname.setFont(new java.awt.Font("Kohinoor Bangla", 0, 18)); // NOI18N
-        inputBookname.setForeground(new java.awt.Color(0, 0, 0));
-        inputBookname.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inputBookname.setText("Indique el nombre del libro");
-        inputBookname.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        inputBookname.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        inputBookname.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                inputBooknameMouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                inputBooknameMouseEntered(evt);
-            }
-        });
-        inputBookname.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputBooknameActionPerformed(evt);
-            }
-        });
-        pnlBackground.add(inputBookname, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 480, 40));
-
         txtWelcome.setFont(new java.awt.Font("Hiragino Mincho ProN", 1, 24)); // NOI18N
         txtWelcome.setForeground(new java.awt.Color(0, 0, 0));
         txtWelcome.setText("Bienvenido Administrador");
@@ -139,6 +125,7 @@ public class AdministratorDialog extends javax.swing.JDialog {
 
         listBooks.setBackground(new java.awt.Color(245, 245, 245));
         listBooks.setForeground(new java.awt.Color(0, 43, 51));
+        listBooks.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         listBooks.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 listBooksValueChanged(evt);
@@ -149,12 +136,37 @@ public class AdministratorDialog extends javax.swing.JDialog {
         pnlBackground.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 130, 290, 320));
 
         lblErrorNoSelection.setForeground(new java.awt.Color(204, 0, 0));
-        lblErrorNoSelection.setText("Seleccione al menos un libro primero");
+        lblErrorNoSelection.setText("Seleccione solamente un libro");
         pnlBackground.add(lblErrorNoSelection, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 530, -1, -1));
 
         lblErrorNoName.setForeground(new java.awt.Color(204, 0, 0));
         lblErrorNoName.setText("No se ha escrito el nombre de ningún libro");
         pnlBackground.add(lblErrorNoName, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, -1, -1));
+
+        inputBookname.setBackground(new java.awt.Color(245, 245, 245));
+        inputBookname.setFont(new java.awt.Font("Kohinoor Bangla", 0, 18)); // NOI18N
+        inputBookname.setForeground(new java.awt.Color(0, 0, 0));
+        inputBookname.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        inputBookname.setText("Indique el nombre del libro");
+        inputBookname.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        inputBookname.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        inputBookname.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                inputBooknameMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                inputBooknameMouseExited(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                inputBooknameMouseEntered(evt);
+            }
+        });
+        inputBookname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputBooknameActionPerformed(evt);
+            }
+        });
+        pnlBackground.add(inputBookname, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 160, 350, 40));
 
         pnlFooter.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -213,7 +225,15 @@ public class AdministratorDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteBookActionPerformed
-        // TODO add your handling code here:
+        hideErrorlbl();
+        
+        if (selection >= 0) {
+            bookModif.deleteBook( selectedBook );
+            model.removeElementAt( selection );
+            
+        } else {
+            lblErrorNoSelection.setVisible(true);
+        } 
     }//GEN-LAST:event_btnDeleteBookActionPerformed
 
     private void btnAddBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBookActionPerformed
@@ -228,19 +248,32 @@ public class AdministratorDialog extends javax.swing.JDialog {
             bookData[2] = 0 + "";
 
             bookModif.addBook(bookData);
+            
+            model.addElement(bookData[0]);
+            
         } else {
             lblErrorNoName.setVisible(true);
         }
     }//GEN-LAST:event_btnAddBookActionPerformed
 
+    private void listBooksValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listBooksValueChanged
+        selection = listBooks.getSelectedIndex();
+        selectedBook = model.getElementAt(selection).toString();
+    }//GEN-LAST:event_listBooksValueChanged
+
+    private void inputBooknameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputBooknameMouseClicked
+        hideErrorlbl();
+
+    }//GEN-LAST:event_inputBooknameMouseClicked
+
     private void inputBooknameMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputBooknameMouseExited
-        if ( inputBookname.getText().equals("") ){
+        if ( inputBookname.getText().equals("") ) {
             inputBookname.setText(defaultinputBooknameText);
         }
     }//GEN-LAST:event_inputBooknameMouseExited
 
     private void inputBooknameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputBooknameMouseEntered
-        if ( inputBookname.getText().equals(defaultinputBooknameText) ){
+        if ( inputBookname.getText().equals(defaultinputBooknameText) ) {
             inputBookname.setText("");
         }
     }//GEN-LAST:event_inputBooknameMouseEntered
@@ -248,10 +281,6 @@ public class AdministratorDialog extends javax.swing.JDialog {
     private void inputBooknameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputBooknameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputBooknameActionPerformed
-
-    private void listBooksValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listBooksValueChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_listBooksValueChanged
 
     /**
      * @param args the command line arguments

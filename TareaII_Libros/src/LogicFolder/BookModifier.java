@@ -9,40 +9,8 @@ import java.util.HashMap;
  */
 public class BookModifier {
     
+    ArchiveManager archiveManager = new ArchiveManager();
     
-    public boolean doesItExist(String bookName) {
-        return getBookList().containsKey(bookName);
-    }
-    
-    
-    public boolean addBook(String[] bookData) { //bookData[0] = bookName, bookData[1] = timesBought, bookData[2] = timesRented
-        boolean bookAdded = false;
-        if ( doesItExist(bookData[0]) == false ) {
-            String newLine = bookData[0] + ", " + bookData[1] + ", " + bookData[2];
-        
-            ArchiveManager archiveManager = new ArchiveManager();
-            archiveManager.createFileBooks();
-            archiveManager.writeInFile("books", newLine);
-            
-            bookAdded = true;
-        }
-
-        return bookAdded;
-    }
-    
-    
-    public boolean deleteBook(String bookName){
-        HashMap<String, HashMap> bookHashMap = getBookList();
-        boolean bookDeleted = false;
-        
-        if ( doesItExist(bookName) == true ) {
-            bookHashMap.remove(bookName);
-            bookDeleted = true;
-        }
-        
-        return bookDeleted;
-    }
-
     
     public String[] getBookInfo(String bookName) {
         String[] bookData = new String[3];
@@ -60,7 +28,6 @@ public class BookModifier {
     public HashMap<String, HashMap> getBookList() {
         HashMap<String, HashMap> bookHashMap = new HashMap<>();
         
-        ArchiveManager archiveManager = new ArchiveManager();
         archiveManager.createFileBooks();
         ArrayList bookList = archiveManager.readInFile("books");
         
@@ -76,6 +43,45 @@ public class BookModifier {
         
         return bookHashMap;
         
+    }
+    
+    public boolean doesItExist(String bookName) {
+        return getBookList().containsKey(bookName);
+    }
+    
+    
+    public boolean addBook(String[] bookData) { //bookData[0] = bookName, bookData[1] = timesBought, bookData[2] = timesRented
+        boolean bookAdded = false;
+        if ( doesItExist(bookData[0]) == false ) {
+            String newLine = bookData[0] + ", " + bookData[1] + ", " + bookData[2];
+        
+            archiveManager.createFileBooks();
+            archiveManager.writeInFile("books", newLine);
+            
+            bookAdded = true;
+        }
+
+        return bookAdded;
+    }
+    
+    
+    public void deleteBook(String bookName){
+        archiveManager.createFileBooks();
+        ArrayList<String> bookList = archiveManager.readInFile("books");
+
+        String newBookList = "";
+        
+        for (int line = 0; bookList.size() > line; line++) {
+            String[] currentLine = bookList.get(line).toString().split(", ");
+            if ( !currentLine[0].equals(bookName) ) {
+                newBookList = newBookList + "\n" + bookList.get(line);
+            }
+        }
+        
+        archiveManager.deleteAFile("books");
+        archiveManager.createFileBooks();
+        archiveManager.writeInFile("books", newBookList);
+
     }
     
 }

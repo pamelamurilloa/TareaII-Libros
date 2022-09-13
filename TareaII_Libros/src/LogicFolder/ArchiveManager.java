@@ -77,4 +77,12 @@ public class ArchiveManager {
         return infoFile;
     }
     
+    public void deleteAFile(String fileString) {
+        File nameFile = booksFile;           //The automatic file creaded is the booksFile
+        if ("users".equals(fileString)) {    //Unless it is specified the contrary
+            nameFile = usersFile;
+        }
+        
+        nameFile.delete();
+    }
 }
