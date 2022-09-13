@@ -185,7 +185,7 @@ public class LoginFrame extends javax.swing.JFrame {
         inputPassword.setFont(new java.awt.Font("Kohinoor Bangla", 1, 15)); // NOI18N
         inputPassword.setForeground(new java.awt.Color(102, 102, 102));
         inputPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        inputPassword.setText("***");
+        inputPassword.setText("*********");
         inputPassword.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         inputPassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
