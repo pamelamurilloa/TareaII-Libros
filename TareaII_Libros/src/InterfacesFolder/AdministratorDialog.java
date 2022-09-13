@@ -1,6 +1,7 @@
 package InterfacesFolder;
 
 import LogicFolder.BookModifier;
+import java.util.HashMap;
 import javax.swing.DefaultListModel;
 
 public class AdministratorDialog extends javax.swing.JDialog {
@@ -25,6 +26,7 @@ public class AdministratorDialog extends javax.swing.JDialog {
         hideErrorlbl();
         listBooks.setModel(model);
         
+        fillInitialList();
         
     }
 
@@ -32,6 +34,13 @@ public class AdministratorDialog extends javax.swing.JDialog {
     public void hideErrorlbl() {
         lblErrorNoName.setVisible(false);
         lblErrorNoSelection.setVisible(false);
+    }
+    
+    public void fillInitialList() {
+        HashMap<String, HashMap> bookHashMap = bookModif.getBookList();
+        for (String key : bookHashMap.keySet() ) {
+            model.addElement(key);
+        }
     }
     
     
