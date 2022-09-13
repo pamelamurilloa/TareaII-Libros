@@ -31,6 +31,7 @@ public class UserDialog extends javax.swing.JDialog {
         pnlFooter = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         pnlBackground = new javax.swing.JPanel();
+        txtWelcome = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -78,6 +79,12 @@ public class UserDialog extends javax.swing.JDialog {
 
         pnlBackground.setBackground(new java.awt.Color(255, 255, 255));
         pnlBackground.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtWelcome.setFont(new java.awt.Font("Hiragino Mincho ProN", 1, 24)); // NOI18N
+        txtWelcome.setForeground(new java.awt.Color(0, 0, 0));
+        txtWelcome.setText("Bienvenido Usuario");
+        pnlBackground.add(txtWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
+
         getContentPane().add(pnlBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1100, 590));
 
         pack();
@@ -132,5 +139,6 @@ public class UserDialog extends javax.swing.JDialog {
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JLabel textTitle;
     private javax.swing.JLabel txtSubtitle;
+    private javax.swing.JLabel txtWelcome;
     // End of variables declaration//GEN-END:variables
 }
