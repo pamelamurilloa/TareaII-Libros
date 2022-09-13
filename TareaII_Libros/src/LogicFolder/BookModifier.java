@@ -74,7 +74,11 @@ public class BookModifier {
         for (int line = 0; bookList.size() > line; line++) {
             String[] currentLine = bookList.get(line).toString().split(", ");
             if ( !currentLine[0].equals(bookName) ) {
-                newBookList = newBookList + "\n" + bookList.get(line);
+                if (line == 0) {
+                    newBookList = bookList.get(line);
+                } else {
+                    newBookList = newBookList + "\n" + bookList.get(line);
+                }
             }
         }
         
