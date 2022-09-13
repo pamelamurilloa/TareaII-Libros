@@ -298,6 +298,7 @@ public class AdministratorDialog extends javax.swing.JDialog {
         } else {
             lblErrorBook.setVisible(true);
         }
+        inputBookname.setText(defaultinputBooknameText);
     }//GEN-LAST:event_btnAddBookActionPerformed
 
     private void listBooksValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listBooksValueChanged
